@@ -23,10 +23,30 @@ function saveBackend(){
   refreshAll();
 }
 
-async function api(path, opts={}){
-  if(!BASE){ throw new Error('Set Backend URL at bottom of page.'); }
-  const res = await fetch(BASE + path, { ...opts, headers: { 'Content-Type':'application/json' } });
-  if(!res.ok){ throw new Error('API error: '+res.status); }
+async function api(path, opts = {}) {
+  if (!BASE) throw new Error('Set Backend URL at bottom of page.');
+  const isGet = !opts.method || opts.method.toUpperCase() === 'GET';
+
+  // Build URL with ?path= (so /exec?path=/state etc.)
+  const url = BASE + (BASE.includes('?') ? '' : '?path=') + encodeURIComponent(path);
+
+  const fetchOpts = { method: opts.method || 'GET' };
+
+  if (isGet) {
+    // No headers for GET -> avoids preflight
+  } else {
+    // Convert body JSON -> x-www-form-urlencoded to avoid preflight
+    const raw = opts.body ? JSON.parse(opts.body) : {};
+    const params = new URLSearchParams();
+    for (const [k, v] of Object.entries(raw)) {
+      params.append(k, typeof v === 'object' ? JSON.stringify(v) : v);
+    }
+    fetchOpts.body = params.toString();
+    fetchOpts.headers = { 'Content-Type': 'application/x-www-form-urlencoded' };
+  }
+
+  const res = await fetch(url, fetchOpts);
+  if (!res.ok) throw new Error('API error: ' + res.status);
   return await res.json();
 }
 
