@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VVHL Draft Command Center</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <img id="lbLogo" alt="Lost Boys" />
+      <h1>VVHL Draft • Command Center</h1>
+      <img id="leagueLogo" alt="VVHL" />
+    </div>
+    <div class="controls">
+      <button id="refreshBtn">Refresh (R)</button>
+      <button id="undoBtn">Undo</button>
+      <button id="orderBtn">Edit Draft Order</button>
+    </div>
+  </header>
+
+  <main>
+    <aside class="left">
+      <div class="card">
+        <h3>Filters</h3>
+        <label>Search <input id="search" placeholder="gamertag, notes..."></label>
+        <label>Primary Pos
+          <select id="posFilter">
+            <option value="">All</option>
+            <option value="C">C</option>
+            <option value="W">W</option>
+            <option value="D">D</option>
+            <option value="G">G</option>
+          </select>
+        </label>
+        <label>Category
+          <select id="catFilter">
+            <option value="">All</option>
+            <option>We Want</option>
+            <option>Possible Target</option>
+            <option>Do Not Draft</option>
+          </select>
+        </label>
+        <label>Status
+          <select id="statusFilter">
+            <option value="">Available + Undrafted</option>
+            <option>Available</option>
+            <option>Drafted</option>
+            <option>Rostered</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="card">
+        <h3>Pick Inspector</h3>
+        <div id="pickInfo">—</div>
+      </div>
+    </aside>
+
+    <section class="board">
+      <h2>Draft Board</h2>
+      <div id="boardGrid"></div>
+    </section>
+
+    <aside class="right">
+      <div class="card">
+        <h3>Available Players</h3>
+        <div class="hint">Click a player to draft into the selected pick.</div>
+        <div id="playerList"></div>
+      </div>
+      <div class="card">
+        <h3>Player Detail</h3>
+        <div id="playerDetail">Select a player…</div>
+      </div>
+    </aside>
+  </main>
+
+  <footer>
+    <span id="status">Ready.</span>
+    <span class="spacer"></span>
+    <label>Backend URL <input id="backendUrl"></label>
+    <button id="saveBackend">Save</button>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
